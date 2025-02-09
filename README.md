@@ -1,55 +1,66 @@
-# Departamento de Ventas
+## Métodos del Programa
 
-Este es un programa en Python que simula el manejo de ventas de diferentes departamentos a lo largo de los meses del año. El programa permite insertar, buscar, eliminar ventas y mostrar una tabla con todas las ventas registradas.
+El programa utiliza varias funciones para realizar las operaciones necesarias con las ventas. A continuación se explican cada uno de los métodos implementados:
 
-## Funcionalidades
+### 1. `insertar_venta()`
 
-- **Insertar venta**: Permite ingresar un monto de ventas para un departamento específico en un mes específico.
-- **Buscar venta**: Permite consultar el monto de ventas registrado para un departamento y mes seleccionados.
-- **Eliminar venta**: Permite eliminar una venta (poniendo el monto a 0.0) para un departamento y mes seleccionados.
-- **Mostrar tabla de ventas**: Muestra una tabla con todas las ventas registradas, organizada por departamentos y meses.
+**Descripción**:  
+Esta función permite al usuario insertar una venta en el sistema. El proceso es interactivo y solicita al usuario el departamento, el mes y el monto de la venta.
 
-## Estructura de Datos
+**Pasos**:
+- Muestra los departamentos disponibles (Ropa, Deportes, Juguetería).
+- Pide al usuario que seleccione un departamento.
+- Muestra los meses disponibles (Enero, Febrero, ..., Diciembre).
+- Pide al usuario que seleccione un mes.
+- Solicita el monto de la venta.
+- Almacena el monto de la venta en la matriz `ventas`, usando los índices del departamento y del mes.
 
-- **Meses**: Un arreglo que contiene los 12 meses del año.
-- **Departamentos**: Un arreglo con los departamentos disponibles ("Ropa", "Deportes", "Juguetería").
-- **Ventas**: Una matriz (arreglo bidimensional) donde se almacenan las ventas de cada departamento para cada mes. Cada fila representa un departamento y cada columna representa un mes.
+**Funcionamiento**:
+- El valor ingresado se guarda en la matriz `ventas` en la posición correspondiente (usando índices para el departamento y el mes).
+- Si el departamento o mes no son válidos, la función muestra un mensaje de error.
 
-## Requisitos
+### 2. `buscar_venta()`
 
-- Python 3.x
-- No se requieren dependencias externas.
+**Descripción**:  
+Este método permite al usuario buscar el monto de ventas registrado para un departamento y un mes específicos.
 
-## Cómo usar el programa
+**Pasos**:
+- Muestra los departamentos disponibles.
+- Solicita al usuario que seleccione un departamento.
+- Muestra los meses disponibles.
+- Solicita al usuario que seleccione un mes.
+- Recupera y muestra el monto de la venta en el departamento y mes seleccionados.
 
-1. **Ejecutar el programa**:
-   - Para ejecutar el programa, solo debes ejecutar el archivo `departamentos.py` en tu terminal o entorno de desarrollo.
+**Funcionamiento**:
+- Utiliza los índices de los arreglos `departamentos` y `meses` para acceder a la matriz `ventas` y obtener el valor correspondiente de la venta.
+- Si el departamento o mes no son válidos, la función muestra un mensaje de error.
 
-2. **Interacción**:
-   - Al ejecutar el programa, se te presentará un menú de opciones. Puedes seleccionar una de las siguientes opciones:
-     - **1. Insertar venta**: Permite ingresar un monto de venta para un departamento y mes específicos.
-     - **2. Buscar venta**: Permite consultar una venta registrada.
-     - **3. Eliminar venta**: Permite eliminar (poner a 0) una venta.
-     - **4. Mostrar tabla de ventas**: Muestra todas las ventas registradas en una tabla organizada por departamento y mes.
-     - **5. Salir**: Termina el programa.
+### 3. `eliminar_venta()`
 
-3. **Ejemplo de interacción**:
+**Descripción**:  
+Permite al usuario eliminar una venta registrada, lo que equivale a poner el monto de ventas a 0.0 para un departamento y mes seleccionados.
 
-   ```text
-   --- Menú de opciones ---
-   1. Insertar venta
-   2. Buscar venta
-   3. Eliminar venta
-   4. Mostrar tabla de ventas
-   5. Salir
-   Seleccione una opción: 1
-   
-   Departamentos disponibles: Ropa, Deportes, Juguetería
-   Ingrese el departamento: Ropa
-   
-   Meses disponibles: Enero, Febrero, Marzo, ...
-   Ingrese el mes: Enero
-   
-   Ingrese el monto de ventas: 500.0
-   Venta de 500.0 insertada en Ropa para el mes de Enero.
+**Pasos**:
+- Muestra los departamentos disponibles.
+- Solicita al usuario que seleccione un departamento.
+- Muestra los meses disponibles.
+- Solicita al usuario que seleccione un mes.
+- Establece el monto de ventas en la matriz `ventas` para esa combinación de departamento y mes a `0.0`.
+
+**Funcionamiento**:
+- Al igual que en `insertar_venta()`, utiliza los índices para acceder y modificar la matriz `ventas`. El valor de la venta se actualiza a `0.0`, eliminando así la venta registrada previamente.
+
+### 4. `mostrar_tabla()`
+
+**Descripción**:  
+Este método muestra una tabla con todas las ventas registradas, organizada por departamentos y meses.
+
+**Pasos**:
+- Muestra un encabezado con los nombres de los meses.
+- Luego, recorre cada departamento y muestra el monto de venta correspondiente a cada mes para ese departamento.
+  
+**Funcionamiento**:
+- Utiliza dos bucles: el primero recorre los departamentos y el segundo recorre los meses.
+- Los valores se extraen de la matriz `ventas` y se presentan en formato tabular.
+- Los valores se alinean para que la tabla sea clara y fácil de leer.
 
