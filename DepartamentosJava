@@ -1,21 +1,156 @@
-import java.util.*;
+import java.util.Scanner;
 
-public class Ventas {
+public class DepartamentoVentas {
 
-    // Lista de meses (de Enero a Diciembre)
-    static String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
-                             "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-    // Lista de departamentos disponibles
+    // Lista de meses
+    static String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+
+    // Lista de departamentos
     static String[] departamentos = {"Ropa", "Deportes", "Juguetería"};
-    // Mapa de ventas: el primer nivel es por departamento, el segundo nivel es por mes, con el valor del monto de ventas
-    static Map<String, Map<String, Double>> ventas = new HashMap<>();
 
-    // Método principal, donde se muestra el menú y se ejecutan las opciones
+    // Matriz bidimensional para almacenar las ventas, inicialmente en 0.0
+    static double[][] ventas = new double[departamentos.length][meses.length];
+
+    // Función para insertar una venta
+    public static void insertarVenta() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Mostrar los departamentos disponibles
+        System.out.println("\nDepartamentos disponibles:");
+        for (int i = 0; i < departamentos.length; i++) {
+            System.out.println(i + ": " + departamentos[i]);
+        }
+
+        // Seleccionar el departamento
+        System.out.print("Seleccione el departamento (0: Ropa, 1: Deportes, 2: Juguetería): ");
+        int deptIndex = scanner.nextInt();
+        if (deptIndex < 0 || deptIndex >= departamentos.length) {
+            System.out.println("Departamento no válido.");
+            return;
+        }
+
+        // Mostrar los meses disponibles
+        System.out.println("\nMeses disponibles:");
+        for (int i = 0; i < meses.length; i++) {
+            System.out.println(i + ": " + meses[i]);
+        }
+
+        // Seleccionar el mes
+        System.out.print("Seleccione el mes (0: Enero, 1: Febrero, ..., 11: Diciembre): ");
+        int mesIndex = scanner.nextInt();
+        if (mesIndex < 0 || mesIndex >= meses.length) {
+            System.out.println("Mes no válido.");
+            return;
+        }
+
+        // Ingresar el monto de la venta
+        System.out.print("Ingrese el monto de ventas: ");
+        double monto = scanner.nextDouble();
+        ventas[deptIndex][mesIndex] = monto;  // Almacenamos la venta
+        System.out.println("Venta de " + monto + " insertada en " + departamentos[deptIndex] + " para el mes de " + meses[mesIndex] + ".");
+    }
+
+    // Función para buscar una venta
+    public static void buscarVenta() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Mostrar los departamentos disponibles
+        System.out.println("\nDepartamentos disponibles:");
+        for (int i = 0; i < departamentos.length; i++) {
+            System.out.println(i + ": " + departamentos[i]);
+        }
+
+        // Seleccionar el departamento
+        System.out.print("Seleccione el departamento (0: Ropa, 1: Deportes, 2: Juguetería): ");
+        int deptIndex = scanner.nextInt();
+        if (deptIndex < 0 || deptIndex >= departamentos.length) {
+            System.out.println("Departamento no válido.");
+            return;
+        }
+
+        // Mostrar los meses disponibles
+        System.out.println("\nMeses disponibles:");
+        for (int i = 0; i < meses.length; i++) {
+            System.out.println(i + ": " + meses[i]);
+        }
+
+        // Seleccionar el mes
+        System.out.print("Seleccione el mes (0: Enero, 1: Febrero, ..., 11: Diciembre): ");
+        int mesIndex = scanner.nextInt();
+        if (mesIndex < 0 || mesIndex >= meses.length) {
+            System.out.println("Mes no válido.");
+            return;
+        }
+
+        // Mostrar el monto de la venta
+        double monto = ventas[deptIndex][mesIndex];
+        System.out.println("Venta en " + departamentos[deptIndex] + " para " + meses[mesIndex] + ": " + monto);
+    }
+
+    // Función para eliminar una venta
+    public static void eliminarVenta() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Mostrar los departamentos disponibles
+        System.out.println("\nDepartamentos disponibles:");
+        for (int i = 0; i < departamentos.length; i++) {
+            System.out.println(i + ": " + departamentos[i]);
+        }
+
+        // Seleccionar el departamento
+        System.out.print("Seleccione el departamento (0: Ropa, 1: Deportes, 2: Juguetería): ");
+        int deptIndex = scanner.nextInt();
+        if (deptIndex < 0 || deptIndex >= departamentos.length) {
+            System.out.println("Departamento no válido.");
+            return;
+        }
+
+        // Mostrar los meses disponibles
+        System.out.println("\nMeses disponibles:");
+        for (int i = 0; i < meses.length; i++) {
+            System.out.println(i + ": " + meses[i]);
+        }
+
+        // Seleccionar el mes
+        System.out.print("Seleccione el mes (0: Enero, 1: Febrero, ..., 11: Diciembre): ");
+        int mesIndex = scanner.nextInt();
+        if (mesIndex < 0 || mesIndex >= meses.length) {
+            System.out.println("Mes no válido.");
+            return;
+        }
+
+        // Eliminar la venta (poner el monto a 0.0)
+        ventas[deptIndex][mesIndex] = 0.0;
+        System.out.println("Venta eliminada en " + departamentos[deptIndex] + " para el mes de " + meses[mesIndex] + ".");
+    }
+
+    // Función para mostrar la tabla de ventas
+    public static void mostrarTabla() {
+        // Mostrar el encabezado de la tabla con los meses
+        System.out.println("\nTabla de ventas:");
+        System.out.printf("%-15s", "Departamento/Mes");
+        for (String mes : meses) {
+            System.out.printf("%-10s", mes);
+        }
+        System.out.println();
+
+        // Mostrar las ventas de cada departamento por mes
+        for (int i = 0; i < departamentos.length; i++) {
+            System.out.printf("%-15s", departamentos[i]);
+            for (int j = 0; j < meses.length; j++) {
+                System.out.printf("%-10.2f", ventas[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    // Menú principal
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);  // Scanner para leer la entrada del usuario
+        Scanner scanner = new Scanner(System.in);
 
-        while (true) {  // Bucle infinito para mantener el menú activo
-            // Mostrar las opciones del menú
+        while (true) {
+            // Mostrar el menú de opciones
             System.out.println("\n--- Menú de opciones ---");
             System.out.println("1. Insertar venta");
             System.out.println("2. Buscar venta");
@@ -23,112 +158,24 @@ public class Ventas {
             System.out.println("4. Mostrar tabla de ventas");
             System.out.println("5. Salir");
 
-            // Leer la opción seleccionada
-            String opcion = scanner.nextLine().trim();
+            System.out.print("Seleccione una opción: ");
+            int opcion = scanner.nextInt();
 
-            // Evaluar la opción seleccionada
-            switch (opcion) {
-                case "1": insertarVenta(scanner); break;  // Llamar a insertarVenta si la opción es 1
-                case "2": buscarVenta(scanner); break;  // Llamar a buscarVenta si la opción es 2
-                case "3": eliminarVenta(scanner); break;  // Llamar a eliminarVenta si la opción es 3
-                case "4": mostrarTabla(); break;  // Llamar a mostrarTabla si la opción es 4
-                case "5": System.out.println("Saliendo..."); return;  // Salir del programa si la opción es 5
-                default: System.out.println("Opción no válida.");  // Si la opción no es válida
+            // Ejecutar la opción seleccionada
+            if (opcion == 1) {
+                insertarVenta();
+            } else if (opcion == 2) {
+                buscarVenta();
+            } else if (opcion == 3) {
+                eliminarVenta();
+            } else if (opcion == 4) {
+                mostrarTabla();
+            } else if (opcion == 5) {
+                System.out.println("Saliendo del programa...");
+                break;
+            } else {
+                System.out.println("Opción no válida. Intente de nuevo.");
             }
-        }
-    }
-
-    // Método para insertar una nueva venta
-    private static void insertarVenta(Scanner scanner) {
-        // Pedir al usuario que seleccione un departamento válido
-        String departamento = obtenerEntrada(scanner, "departamento", departamentos);
-        if (departamento == null) return;  // Si el departamento no es válido, salir del método
-
-        // Pedir al usuario que seleccione un mes válido
-        String mes = obtenerEntrada(scanner, "mes", meses);
-        if (mes == null) return;  // Si el mes no es válido, salir del método
-
-        // Pedir al usuario que ingrese el monto de la venta
-        System.out.print("Ingrese el monto de ventas: ");
-        try {
-            double monto = Double.parseDouble(scanner.nextLine());  // Intentar convertir el monto a tipo double
-            // Si el departamento no existe, lo creamos. Luego, agregamos el monto de la venta al mes correspondiente
-            ventas.computeIfAbsent(departamento, k -> new HashMap<>()).put(mes, monto);
-            System.out.println("Venta de " + monto + " en " + departamento + " para " + mes + ".");
-        } catch (NumberFormatException e) {  // Si el monto no es un número válido
-            System.out.println("Monto inválido.");
-        }
-    }
-
-    // Método para buscar el monto de una venta
-    private static void buscarVenta(Scanner scanner) {
-        // Pedir al usuario que seleccione un departamento válido
-        String departamento = obtenerEntrada(scanner, "departamento", departamentos);
-        if (departamento == null) return;  // Si el departamento no es válido, salir del método
-
-        // Pedir al usuario que seleccione un mes válido
-        String mes = obtenerEntrada(scanner, "mes", meses);
-        if (mes == null) return;  // Si el mes no es válido, salir del método
-
-        // Obtener el monto de la venta si existe. Si no, mostrar un mensaje de error
-        Double monto = ventas.getOrDefault(departamento, new HashMap<>()).get(mes);
-        if (monto == null) {
-            System.out.println("No hay ventas para " + departamento + " en " + mes + ".");
-        } else {
-            System.out.println("Venta en " + departamento + " para " + mes + ": " + monto);
-        }
-    }
-
-    // Método para eliminar una venta (poner el monto a 0)
-    private static void eliminarVenta(Scanner scanner) {
-        // Pedir al usuario que seleccione un departamento válido
-        String departamento = obtenerEntrada(scanner, "departamento", departamentos);
-        if (departamento == null) return;  // Si el departamento no es válido, salir del método
-
-        // Pedir al usuario que seleccione un mes válido
-        String mes = obtenerEntrada(scanner, "mes", meses);
-        if (mes == null) return;  // Si el mes no es válido, salir del método
-
-        // Si existe la venta, ponemos su monto a 0.0
-        ventas.computeIfPresent(departamento, (k, v) -> {
-            v.put(mes, 0.0);  // Poner el monto a 0 para la venta de ese mes
-            return v;
-        });
-        System.out.println("Venta eliminada en " + departamento + " para el mes de " + mes + ".");
-    }
-
-    // Método para mostrar la tabla de ventas
-    private static void mostrarTabla() {
-        // Imprimir el encabezado con los meses
-        System.out.println("\nTabla de ventas:");
-        System.out.print(String.format("%-15s", "Departamento/Mes"));
-        Arrays.stream(meses).forEach(m -> System.out.print(String.format("%-10s", m)));  // Imprimir los meses
-        System.out.println();
-
-        // Imprimir las ventas de cada departamento para cada mes
-        for (String dept : departamentos) {
-            System.out.print(String.format("%-15s", dept));  // Imprimir el nombre del departamento
-            for (String mes : meses) {
-                // Si no existe venta, mostramos 0.0. Si existe, mostramos el monto.
-                double monto = ventas.getOrDefault(dept, new HashMap<>()).getOrDefault(mes, 0.0);
-                System.out.print(String.format("%-10.2f", monto));  // Imprimir el monto con formato
-            }
-            System.out.println();
-        }
-    }
-
-    // Método genérico para obtener la entrada del usuario (departamento o mes)
-    private static String obtenerEntrada(Scanner scanner, String tipo, String[] opciones) {
-        System.out.println("\n" + tipo.substring(0, 1).toUpperCase() + tipo.substring(1) + " disponibles:");
-        Arrays.stream(opciones).forEach(opcion -> System.out.print(opcion + " "));  // Imprimir opciones
-        System.out.println();
-        System.out.print("Ingrese el " + tipo + ": ");
-        String entrada = scanner.nextLine().trim();  // Leer la entrada del usuario
-        if (Arrays.asList(opciones).contains(entrada)) {  // Validar si la entrada es válida
-            return entrada;  // Si es válida, devolverla
-        } else {
-            System.out.println(tipo.substring(0, 1).toUpperCase() + tipo.substring(1) + " no válido.");
-            return null;  // Si no es válida, devolver null
         }
     }
 }
