@@ -1,0 +1,108 @@
+# Lista de meses y departamentos
+meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+departamentos = ["Ropa", "Deportes", "Juguetería"]
+
+# Crear un arreglo bidimensional para las ventas
+ventas = {dept: {mes: 0.0 for mes in meses} for dept in departamentos}
+
+# Función para insertar una venta
+def insertar_venta():
+    print("\nDepartamentos disponibles:", ", ".join(departamentos))
+    departamento = input("Ingrese el departamento: ").strip()
+    if departamento not in departamentos:
+        print("Departamento no válido.")
+        return
+
+    print("\nMeses disponibles:", ", ".join(meses))
+    mes = input("Ingrese el mes: ").strip()
+    if mes not in meses:
+        print("Mes no válido.")
+        return
+
+    try:
+        monto = float(input("Ingrese el monto de ventas: "))
+        ventas[departamento][mes] = monto
+        print(f"Venta de {monto} insertada en {departamento} para el mes de {mes}.")
+    except ValueError:
+        print("El monto debe ser un número válido.")
+
+# Función para buscar una venta
+def buscar_venta():
+    print("\nDepartamentos disponibles:", ", ".join(departamentos))
+    departamento = input("Ingrese el departamento: ").strip()
+    if departamento not in departamentos:
+        print("Departamento no válido.")
+        return
+
+    print("\nMeses disponibles:", ", ".join(meses))
+    mes = input("Ingrese el mes: ").strip()
+    if mes not in meses:
+        print("Mes no válido.")
+        return
+
+    monto = ventas[departamento][mes]
+    print(f"Venta en {departamento} para {mes}: {monto}")
+
+# Función para eliminar una venta
+def eliminar_venta():
+    print("\nDepartamentos disponibles:", ", ".join(departamentos))
+    departamento = input("Ingrese el departamento: ").strip()
+    if departamento not in departamentos:
+        print("Departamento no válido.")
+        return
+
+    print("\nMeses disponibles:", ", ".join(meses))
+    mes = input("Ingrese el mes: ").strip()
+    if mes not in meses:
+        print("Mes no válido.")
+        return
+
+    ventas[departamento][mes] = 0.0
+    print(f"Venta eliminada en {departamento} para el mes de {mes}.")
+
+# Función para mostrar la tabla de ventas
+def mostrar_tabla():
+    print("\nTabla de ventas:")
+    # Encabezado de la tabla
+    print(f"{'Departamento/Mes':<15}", end="")
+    for mes in meses:
+        print(f"{mes:<10}", end="")
+    print()
+
+    # Filas de la tabla
+    for dept in departamentos:
+        print(f"{dept:<15}", end="")
+        for mes in meses:
+            print(f"{ventas[dept][mes]:<10.2f}", end="")
+        print()
+
+# Menú principal
+def main():
+    while True:
+        print("\n--- Menú de opciones ---")
+        print("1. Insertar venta")
+        print("2. Buscar venta")
+        print("3. Eliminar venta")
+        print("4. Mostrar tabla de ventas")
+        print("5. Salir")
+
+        opcion = input("Seleccione una opción: ").strip()
+
+        if opcion == "1":
+            insertar_venta()
+        elif opcion == "2":
+            buscar_venta()
+        elif opcion == "3":
+            eliminar_venta()
+        elif opcion == "4":
+            mostrar_tabla()
+        elif opcion == "5":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+# Ejecutar el programa
+if __name__ == "__main__":
+    main()
