@@ -1,21 +1,25 @@
-# Lista de meses y departamentos
-meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+# Lista de meses
+meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+# Lista de departamentos disponibles
 departamentos = ["Ropa", "Deportes", "Juguetería"]
 
-# Crear un arreglo bidimensional para las ventas
+# Diccionario de ventas, donde cada departamento tiene otro diccionario con los meses como claves
 ventas = {dept: {mes: 0.0 for mes in meses} for dept in departamentos}
 
-# Función para insertar una venta
+# Función para insertar una nueva venta
 def insertar_venta():
     print("\nDepartamentos disponibles:", ", ".join(departamentos))
     departamento = input("Ingrese el departamento: ").strip()
+    
     if departamento not in departamentos:
         print("Departamento no válido.")
         return
 
     print("\nMeses disponibles:", ", ".join(meses))
     mes = input("Ingrese el mes: ").strip()
+    
     if mes not in meses:
         print("Mes no válido.")
         return
@@ -27,16 +31,18 @@ def insertar_venta():
     except ValueError:
         print("El monto debe ser un número válido.")
 
-# Función para buscar una venta
+# Función para buscar una venta ya registrada
 def buscar_venta():
     print("\nDepartamentos disponibles:", ", ".join(departamentos))
     departamento = input("Ingrese el departamento: ").strip()
+    
     if departamento not in departamentos:
         print("Departamento no válido.")
         return
 
     print("\nMeses disponibles:", ", ".join(meses))
     mes = input("Ingrese el mes: ").strip()
+    
     if mes not in meses:
         print("Mes no válido.")
         return
@@ -44,16 +50,18 @@ def buscar_venta():
     monto = ventas[departamento][mes]
     print(f"Venta en {departamento} para {mes}: {monto}")
 
-# Función para eliminar una venta
+# Función para eliminar una venta (poner el monto a 0.0)
 def eliminar_venta():
     print("\nDepartamentos disponibles:", ", ".join(departamentos))
     departamento = input("Ingrese el departamento: ").strip()
+    
     if departamento not in departamentos:
         print("Departamento no válido.")
         return
 
     print("\nMeses disponibles:", ", ".join(meses))
     mes = input("Ingrese el mes: ").strip()
+    
     if mes not in meses:
         print("Mes no válido.")
         return
@@ -61,23 +69,21 @@ def eliminar_venta():
     ventas[departamento][mes] = 0.0
     print(f"Venta eliminada en {departamento} para el mes de {mes}.")
 
-# Función para mostrar la tabla de ventas
+# Función para mostrar la tabla de ventas (todos los departamentos y meses)
 def mostrar_tabla():
     print("\nTabla de ventas:")
-    # Encabezado de la tabla
     print(f"{'Departamento/Mes':<15}", end="")
     for mes in meses:
         print(f"{mes:<10}", end="")
-    print()
+    print()  # Salto de línea después del encabezado
 
-    # Filas de la tabla
     for dept in departamentos:
         print(f"{dept:<15}", end="")
         for mes in meses:
             print(f"{ventas[dept][mes]:<10.2f}", end="")
-        print()
+        print()  # Salto de línea después de cada fila de la tabla
 
-# Menú principal
+# Función principal que muestra el menú y ejecuta las opciones
 def main():
     while True:
         print("\n--- Menú de opciones ---")
@@ -90,19 +96,20 @@ def main():
         opcion = input("Seleccione una opción: ").strip()
 
         if opcion == "1":
-            insertar_venta()
+            insertar_venta()  # Insertar una venta
         elif opcion == "2":
-            buscar_venta()
+            buscar_venta()  # Buscar una venta
         elif opcion == "3":
-            eliminar_venta()
+            eliminar_venta()  # Eliminar una venta
         elif opcion == "4":
-            mostrar_tabla()
+            mostrar_tabla()  # Mostrar la tabla de ventas
         elif opcion == "5":
-            print("Saliendo del programa...")
-            break
+            print("Saliendo del programa...")  # Mensaje de salida
+            break  # Salimos del bucle y terminamos el programa
         else:
             print("Opción no válida. Intente de nuevo.")
 
-# Ejecutar el programa
+# Ejecutamos el programa llamando a la función principal
 if __name__ == "__main__":
     main()
+
