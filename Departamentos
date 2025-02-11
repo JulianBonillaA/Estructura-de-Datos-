@@ -1,95 +1,74 @@
-# Lista de meses
-meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-# Lista de departamentos
 departamentos = ["Ropa", "Deportes", "Juguetería"]
 
-# Creamos una matriz (arreglo bidimensional) para almacenar las ventas.
-# Inicializamos todas las ventas en 0.0
 ventas = [[0.0 for _ in meses] for _ in departamentos]
 
-# Función para insertar una venta
 def insertar_venta():
-    # Mostramos los departamentos disponibles
     print("\nDepartamentos disponibles:", ", ".join(departamentos))
     departamento_index = int(input("Seleccione el departamento (0: Ropa, 1: Deportes, 2: Juguetería): "))
     if departamento_index < 0 or departamento_index >= len(departamentos):
         print("Departamento no válido.")
         return
 
-    # Mostramos los meses disponibles
     print("\nMeses disponibles:", ", ".join(meses))
     mes_index = int(input("Seleccione el mes (0: Enero, 1: Febrero, ..., 11: Diciembre): "))
     if mes_index < 0 or mes_index >= len(meses):
         print("Mes no válido.")
         return
 
-    # Pedimos el monto de la venta
     try:
         monto = float(input("Ingrese el monto de ventas: "))
-        ventas[departamento_index][mes_index] = monto  # Almacenamos la venta
+        ventas[departamento_index][mes_index] = monto
         print(f"Venta de {monto} insertada en {departamentos[departamento_index]} para el mes de {meses[mes_index]}.")
     except ValueError:
         print("El monto debe ser un número válido.")
 
-# Función para buscar una venta
 def buscar_venta():
-    # Mostramos los departamentos disponibles
     print("\nDepartamentos disponibles:", ", ".join(departamentos))
     departamento_index = int(input("Seleccione el departamento (0: Ropa, 1: Deportes, 2: Juguetería): "))
     if departamento_index < 0 or departamento_index >= len(departamentos):
         print("Departamento no válido.")
         return
 
-    # Mostramos los meses disponibles
     print("\nMeses disponibles:", ", ".join(meses))
     mes_index = int(input("Seleccione el mes (0: Enero, 1: Febrero, ..., 11: Diciembre): "))
     if mes_index < 0 or mes_index >= len(meses):
         print("Mes no válido.")
         return
 
-    # Mostramos el monto de la venta
     monto = ventas[departamento_index][mes_index]
     print(f"Venta en {departamentos[departamento_index]} para {meses[mes_index]}: {monto}")
 
-# Función para eliminar una venta
 def eliminar_venta():
-    # Mostramos los departamentos disponibles
     print("\nDepartamentos disponibles:", ", ".join(departamentos))
     departamento_index = int(input("Seleccione el departamento (0: Ropa, 1: Deportes, 2: Juguetería): "))
     if departamento_index < 0 or departamento_index >= len(departamentos):
         print("Departamento no válido.")
         return
 
-    # Mostramos los meses disponibles
     print("\nMeses disponibles:", ", ".join(meses))
     mes_index = int(input("Seleccione el mes (0: Enero, 1: Febrero, ..., 11: Diciembre): "))
     if mes_index < 0 or mes_index >= len(meses):
         print("Mes no válido.")
         return
 
-    # Eliminar la venta (poner el monto a 0.0)
     ventas[departamento_index][mes_index] = 0.0
     print(f"Venta eliminada en {departamentos[departamento_index]} para el mes de {meses[mes_index]}.")
 
-# Función para mostrar la tabla de ventas
 def mostrar_tabla():
     print("\nTabla de ventas:")
-    # Encabezado de la tabla con los meses
     print("{:<15}".format("Departamento/Mes"), end="")
     for mes in meses:
         print("{:<10}".format(mes), end="")
     print()
 
-    # Filas de la tabla para cada departamento
     for i, dept in enumerate(departamentos):
-        print("{:<15}".format(dept), end="")  # Mostrar nombre del departamento
+        print("{:<15}".format(dept), end="")
         for j in range(len(meses)):
-            print("{:<10}".format(ventas[i][j]), end="")  # Mostrar las ventas
+            print("{:<10}".format(ventas[i][j]), end="")
         print()
 
-# Menú principal
 def main():
     while True:
         print("\n--- Menú de opciones ---")
@@ -115,7 +94,5 @@ def main():
         else:
             print("Opción no válida. Intente de nuevo.")
 
-# Ejecutar el programa
 if __name__ == "__main__":
     main()
-
