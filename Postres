@@ -1,0 +1,100 @@
+class Nodo:
+    def __init__(self, nombre):
+        self.nombre, self.siguiente = nombre, None
+
+class Postre:
+    def __init__(self, nombre):
+        self.nombre, self.ingredientes, self.siguiente = nombre, None, None
+
+class GestionPostres:
+    def __init__(self):
+        self.cabeza = None
+    
+    def _buscar_postre(self, nombre):
+        actual = self.cabeza
+        while actual and actual.nombre != nombre:
+            actual = actual.siguiente
+        return actual
+    
+    def agregar_postre(self, nombre):
+        nuevo = Postre(nombre)
+        if not self.cabeza:
+            self.cabeza = nuevo
+        else:
+            actual = self.cabeza
+            while actual.siguiente:
+                actual = actual.siguiente
+            actual.siguiente = nuevo
+        print(f"Postre '{nombre}' agregado.")
+    
+    def eliminar_postre(self, nombre):
+        actual, anterior = self.cabeza, None
+        while actual and actual.nombre != nombre:
+            anterior, actual = actual, actual.siguiente
+        if not actual:
+            return print(f"Postre '{nombre}' no encontrado.")
+        if anterior:
+            anterior.siguiente = actual.siguiente
+        else:
+            self.cabeza = actual.siguiente
+        print(f"Postre '{nombre}' eliminado.")
+    
+    def modificar_ingrediente(self, postre_nombre, ingrediente_nombre, eliminar=False):
+        postre = self._buscar_postre(postre_nombre)
+        if not postre:
+            return print(f"Postre '{postre_nombre}' no encontrado.")
+        
+        if eliminar:
+            actual, anterior = postre.ingredientes, None
+            while actual and actual.nombre != ingrediente_nombre:
+                anterior, actual = actual, actual.siguiente
+            if not actual:
+                return print(f"Ingrediente '{ingrediente_nombre}' no está en '{postre_nombre}'.")
+            if anterior:
+                anterior.siguiente = actual.siguiente
+            else:
+                postre.ingredientes = actual.siguiente
+            print(f"Ingrediente '{ingrediente_nombre}' eliminado de '{postre_nombre}'.")
+        else:
+            nuevo = Nodo(ingrediente_nombre)
+            if not postre.ingredientes:
+                postre.ingredientes = nuevo
+            else:
+                actual = postre.ingredientes
+                while actual.siguiente:
+                    actual = actual.siguiente
+                actual.siguiente = nuevo
+            print(f"Ingrediente '{ingrediente_nombre}' agregado a '{postre_nombre}'.")
+    
+    def mostrar_ingredientes(self, postre_nombre):
+        postre = self._buscar_postre(postre_nombre)
+        if not postre or not postre.ingredientes:
+            return print(f"No hay ingredientes para '{postre_nombre}'.")
+        actual = postre.ingredientes
+        ingredientes = []
+        while actual:
+            ingredientes.append(actual.nombre)
+            actual = actual.siguiente
+        print(f"Ingredientes de '{postre_nombre}':", ', '.join(ingredientes))
+    
+    def mostrar_postres(self):
+        actual = self.cabeza
+        if not actual:
+            return print("No hay postres registrados.")
+        postres = []
+        while actual:
+            postres.append(actual.nombre)
+            actual = actual.siguiente
+        print("Lista de postres:", ', '.join(postres))
+
+# Ejemplo de uso
+gestion = GestionPostres()
+gestion.agregar_postre("Pastel de Chocolate")
+gestion.modificar_ingrediente("Pastel de Chocolate", "Harina")
+gestion.modificar_ingrediente("Pastel de Chocolate", "Azúcar")
+gestion.mostrar_ingredientes("Pastel de Chocolate")
+gestion.modificar_ingrediente("Pastel de Chocolate", "Azúcar", eliminar=True)
+gestion.mostrar_ingredientes("Pastel de Chocolate")
+gestion.eliminar_postre("Pastel de Chocolate")
+gestion.mostrar_postres()
+
