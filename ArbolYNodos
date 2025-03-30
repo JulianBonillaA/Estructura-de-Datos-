@@ -1,0 +1,59 @@
+class Nodo:
+    def __init__(self, valor):
+        self.valor = valor
+        self.izquierda = None
+        self.derecha = None
+
+class Arbol:
+    def __init__(self):
+        self.raiz = None
+
+    def insertar(self, valor):
+        if self.raiz is None:
+            self.raiz = Nodo(valor)
+        else:
+            self._insertar_recursivo(self.raiz, valor)
+
+    def _insertar_recursivo(self, nodo, valor):
+        if valor < nodo.valor:
+            if nodo.izquierda is None:
+                nodo.izquierda = Nodo(valor)
+            else:
+                self._insertar_recursivo(nodo.izquierda, valor)
+        else:
+            if nodo.derecha is None:
+                nodo.derecha = Nodo(valor)
+            else:
+                self._insertar_recursivo(nodo.derecha, valor)
+
+    def en_orden(self, nodo):
+        if nodo is not None:
+            self.en_orden(nodo.izquierda)
+            print(nodo.valor)
+            self.en_orden(nodo.derecha)
+
+    def buscar(self, valor):
+        return self._buscar_recursivo(self.raiz, valor)
+
+    def _buscar_recursivo(self, nodo, valor):
+        if nodo is None or nodo.valor == valor:
+            return nodo is not None
+        if valor < nodo.valor:
+            return self._buscar_recursivo(nodo.izquierda, valor)
+        return self._buscar_recursivo(nodo.derecha, valor)
+
+# Ejemplo de uso
+tree = Arbol()
+tree.insertar(50)
+tree.insertar(30)
+tree.insertar(70)
+tree.insertar(20)
+tree.insertar(40)
+tree.insertar(60)
+tree.insertar(80)
+
+print("Recorrido en orden:")
+tree.en_orden(tree.raiz)
+
+print("\nBúsqueda de 40:", tree.buscar(40))
+print("Búsqueda de 100:", tree.buscar(100))
