@@ -1,55 +1,52 @@
-import networkx as nx
-import matplotlib.pyplot as plt
+# Definir el grafo como un diccionario de adyacencia con costos
+grafo = {
+    "CDMX": {"EdoMex": 50, "Puebla": 80, "Querétaro": 100},
+    "EdoMex": {"CDMX": 50, "Guerrero": 120, "Michoacán": 90},
+    "Puebla": {"CDMX": 80, "Veracruz": 150},
+    "Querétaro": {"CDMX": 100, "San Luis Potosí": 200},
+    "Guerrero": {"EdoMex": 120, "Michoacán": 70},
+    "Michoacán": {"EdoMex": 90, "Guerrero": 70},
+    "Veracruz": {"Puebla": 150, "San Luis Potosí": 250},
+    "San Luis Potosí": {"Querétaro": 200, "Veracruz": 250}
+}
 
-# Crear el grafo
-G = nx.Graph()
+# Función para recorrer el grafo sin repetir estados (DFS)
+def recorrido_sin_repetir(grafo, inicio, visitados=None):
+    if visitados is None:
+        visitados = set()
+    visitados.add(inicio)
+    recorrido = [inicio]
+    
+    for vecino in grafo[inicio]:
+        if vecino not in visitados:
+            recorrido.extend(recorrido_sin_repetir(grafo, vecino, visitados))
+    
+    return recorrido
 
-# Definir estados y conexiones con sus costos
-conexiones = [
-    ("CDMX", "EdoMex", 50),
-    ("CDMX", "Puebla", 80),
-    ("CDMX", "Querétaro", 100),
-    ("EdoMex", "Guerrero", 120),
-    ("EdoMex", "Michoacán", 90),
-    ("Puebla", "Veracruz", 150),
-    ("Querétaro", "San Luis Potosí", 200),
-    ("San Luis Potosí", "Veracruz", 250),
-    ("Guerrero", "Michoacán", 70),
-]
-
-# Agregar nodos y aristas al grafo
-for estado1, estado2, costo in conexiones:
-    G.add_edge(estado1, estado2, weight=costo)
-
-# Función para encontrar un recorrido sin repetir estados (DFS)
-def recorrido_sin_repetir(grafo, inicio):
-    return list(nx.dfs_preorder_nodes(grafo, inicio))
-
-# Función para encontrar un recorrido repitiendo al menos un estado
+# Función para recorrer el grafo repitiendo al menos un estado
 def recorrido_con_repeticion(grafo, inicio):
-    camino = list(nx.dfs_preorder_nodes(grafo, inicio))
-    if len(camino) > 1:
-        camino.append(camino[1])  # Repetimos un estado
-    return camino
+    recorrido = recorrido_sin_repetir(grafo, inicio)
+    if len(recorrido) > 1:
+        recorrido.append(recorrido[1])  # Repetimos un estado
+    return recorrido
 
-# Calcular costo total de un recorrido
+# Función para calcular el costo de un recorrido
 def costo_total(grafo, recorrido):
     costo = 0
     for i in range(len(recorrido) - 1):
-        if grafo.has_edge(recorrido[i], recorrido[i + 1]):
-            costo += grafo[recorrido[i]][recorrido[i + 1]]['weight']
+        costo += grafo[recorrido[i]][recorrido[i + 1]]
     return costo
 
-# Definir estado de inicio
+# Estado de inicio
 inicio = "CDMX"
 
-# Obtener los recorridos
-ruta_sin_repetir = recorrido_sin_repetir(G, inicio)
-ruta_con_repeticion = recorrido_con_repeticion(G, inicio)
+# Obtener recorridos
+ruta_sin_repetir = recorrido_sin_repetir(grafo, inicio)
+ruta_con_repeticion = recorrido_con_repeticion(grafo, inicio)
 
 # Calcular costos
-costo_sin_repetir = costo_total(G, ruta_sin_repetir)
-costo_con_repeticion = costo_total(G, ruta_con_repeticion)
+costo_sin_repetir = costo_total(grafo, ruta_sin_repetir)
+costo_con_repeticion = costo_total(grafo, ruta_con_repeticion)
 
 # Mostrar resultados
 print("Recorrido sin repetir estados:", " → ".join(ruta_sin_repetir))
@@ -58,16 +55,7 @@ print("Costo total sin repetir:", costo_sin_repetir)
 print("\nRecorrido con repetición de al menos un estado:", " → ".join(ruta_con_repeticion))
 print("Costo total con repetición:", costo_con_repeticion)
 
-# Dibujar el grafo
-pos = nx.spring_layout(G)
-plt.figure(figsize=(8,6))
-
-# Dibujar nodos y aristas
-nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='gray', node_size=2500, font_size=10)
-
-# Dibujar etiquetas de pesos en las conexiones
-labels = nx.get_edge_attributes(G, 'weight')
-nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-
-plt.title("Mapa de conexiones entre estados")
-plt.show()
+# Mostrar estados y sus relaciones
+print("\nEstados y conexiones:")
+for estado, conexiones in grafo.items():
+    print(f"{estado}: {', '.join([f'{k} ({v})' for k, v in conexiones.items()])}")
