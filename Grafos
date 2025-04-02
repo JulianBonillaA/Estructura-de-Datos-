@@ -1,1 +1,73 @@
+import networkx as nx
+import matplotlib.pyplot as plt
 
+# Crear el grafo
+G = nx.Graph()
+
+# Definir estados y conexiones con sus costos
+conexiones = [
+    ("CDMX", "EdoMex", 50),
+    ("CDMX", "Puebla", 80),
+    ("CDMX", "Querétaro", 100),
+    ("EdoMex", "Guerrero", 120),
+    ("EdoMex", "Michoacán", 90),
+    ("Puebla", "Veracruz", 150),
+    ("Querétaro", "San Luis Potosí", 200),
+    ("San Luis Potosí", "Veracruz", 250),
+    ("Guerrero", "Michoacán", 70),
+]
+
+# Agregar nodos y aristas al grafo
+for estado1, estado2, costo in conexiones:
+    G.add_edge(estado1, estado2, weight=costo)
+
+# Función para encontrar un recorrido sin repetir estados (DFS)
+def recorrido_sin_repetir(grafo, inicio):
+    return list(nx.dfs_preorder_nodes(grafo, inicio))
+
+# Función para encontrar un recorrido repitiendo al menos un estado
+def recorrido_con_repeticion(grafo, inicio):
+    camino = list(nx.dfs_preorder_nodes(grafo, inicio))
+    if len(camino) > 1:
+        camino.append(camino[1])  # Repetimos un estado
+    return camino
+
+# Calcular costo total de un recorrido
+def costo_total(grafo, recorrido):
+    costo = 0
+    for i in range(len(recorrido) - 1):
+        if grafo.has_edge(recorrido[i], recorrido[i + 1]):
+            costo += grafo[recorrido[i]][recorrido[i + 1]]['weight']
+    return costo
+
+# Definir estado de inicio
+inicio = "CDMX"
+
+# Obtener los recorridos
+ruta_sin_repetir = recorrido_sin_repetir(G, inicio)
+ruta_con_repeticion = recorrido_con_repeticion(G, inicio)
+
+# Calcular costos
+costo_sin_repetir = costo_total(G, ruta_sin_repetir)
+costo_con_repeticion = costo_total(G, ruta_con_repeticion)
+
+# Mostrar resultados
+print("Recorrido sin repetir estados:", " → ".join(ruta_sin_repetir))
+print("Costo total sin repetir:", costo_sin_repetir)
+
+print("\nRecorrido con repetición de al menos un estado:", " → ".join(ruta_con_repeticion))
+print("Costo total con repetición:", costo_con_repeticion)
+
+# Dibujar el grafo
+pos = nx.spring_layout(G)
+plt.figure(figsize=(8,6))
+
+# Dibujar nodos y aristas
+nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='gray', node_size=2500, font_size=10)
+
+# Dibujar etiquetas de pesos en las conexiones
+labels = nx.get_edge_attributes(G, 'weight')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+
+plt.title("Mapa de conexiones entre estados")
+plt.show()
