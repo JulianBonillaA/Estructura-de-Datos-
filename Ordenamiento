@@ -1,0 +1,56 @@
+def insercion(lista):
+    for i in range(1, len(lista)):
+        valor_actual = lista[i]
+        j = i - 1
+        while j >= 0 and lista[j] > valor_actual:
+            lista[j + 1] = lista[j]
+            j -= 1
+        lista[j + 1] = valor_actual
+    return lista
+
+def seleccion(lista):
+    n = len(lista)
+    for i in range(n):
+        indice_min = i
+        for j in range(i+1, n):
+            if lista[j] < lista[indice_min]:
+                indice_min = j
+        lista[i], lista[indice_min] = lista[indice_min], lista[i]
+    return lista
+
+def burbuja(lista):
+    n = len(lista)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if lista[j] > lista[j + 1]:
+                lista[j], lista[j + 1] = lista[j + 1], lista[j]
+    return lista
+
+def menu():
+    while True:
+        print("\n--- Menú de Opciones ---")
+        print("1. Ordenar lista por inserción")
+        print("2. Ordenar lista por selección")
+        print("3. Ordenar lista por burbuja")
+        print("4. Salir")
+        
+        opcion = input("Elija una opción (1-4): ")
+        
+        if opcion in ["1", "2", "3"]:
+            lista = [int(x) for x in input("Ingrese números separados por espacio: ").split()]
+            print("Lista original:", lista)
+
+            if opcion == "1":
+                print("Lista ordenada (Inserción):", insercion(lista))
+            elif opcion == "2":
+                print("Lista ordenada (Selección):", seleccion(lista))
+            elif opcion == "3":
+                print("Lista ordenada (Burbuja):", burbuja(lista))
+
+        elif opcion == "4":
+            print("Saliendo del programa.")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+menu()
